@@ -22,7 +22,14 @@ function donden_init() {
 	load_plugin_textdomain( 'donden-gaeshi', false, basename( __DIR__ ) . '/languages' );
 	// Include composer.
 	if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-		require __DIR__ . '/vendor/autoload.php';
+		require_once __DIR__ . '/vendor/autoload.php';
+	}
+	if ( is_dir( __DIR__ . '/includes' ) ) {
+		foreach ( scandir( __DIR__ . '/includes' ) as $file ) {
+			if ( preg_match( '#^[^._].*\.php#u', $file ) ) {
+				require __DIR__ . '/includes/' . $file;
+			}
+		}
 	}
 }
 add_action( 'plugins_loaded', 'donden_init' );
