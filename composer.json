@@ -1,0 +1,26 @@
+{
+    "name": "kuno1/donden-gaeshi",
+    "description": "Swap name fields in specific locale.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "guy@hametuha.com"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "files": [
+            "includes/functions.php",
+            "includes/woocommerce-account.php"
+        ]
+    }
+}
