@@ -40,3 +40,48 @@ add_action( 'woocommerce_edit_account_form_end', function() {
 	echo $content;
 	
 }, 9999 );
+
+/**
+ * Swap user name fields on edit screen.
+ *
+ * @param array $address_fields
+ * @param string $country
+ *
+ * @return array
+ */
+function donden_address_fields( $address_fields ) {
+	if ( donden_should_swap( get_user_locale() ) ) {
+			foreach ( [
+				[ 'first_name', 20, 'last' ],
+				[ 'last_name', 10, 'first' ],
+			] as list( $key, $priority, $class_name ) ) {
+				if ( isset( $address_fields[ $key ] ) ) {
+					$address_fields[ $key ]['priority'] = $priority;
+					$address_fields[ $key ]['class'][0] = "form-row-{$class_name}";
+				}
+			}
+	}
+	return $address_fields;
+}
+add_filter( 'woocommerce_default_address_fields', 'donden_address_fields', 10, 1 );
+
+/**
+ * Filter gettext for backward compats.
+ *
+ * @param string $translation
+ * @param string $text
+ * @param string $context
+ * @param string $domain
+ * @return string
+ */
+add_filter( 'gettext_with_context', function( $translation, $text, $context, $domain ) {
+	if ( 'woocommerce' === $domain && donden_should_swap(get_user_locale() ) ) {
+		switch ( $context ) {
+			case 'display_name':
+			case 'full_name':
+				$translation = '%2$s %1$s';
+				break;
+		}
+	}
+	return $translation;
+}, 10, 4 );
