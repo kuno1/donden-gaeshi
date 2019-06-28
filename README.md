@@ -36,7 +36,19 @@ Currently fixes...
 
 1. Upload `donden-gaeshi` folder to the `/wp-content/plugins` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Please set up on Settings > WP Elasticsearch.
+3. Now your name order will be suite for your locale.
+
+## Customization
+
+You can change locales with filter.
+
+```
+add_filter( 'donden_swappable_lang_list', function( $langs ) {
+    // Add lang th.
+    $langs[] = 'th';
+    return $langs
+} );
+```
 
 ## Screenshots
 
@@ -52,7 +64,7 @@ This plugin is hosted on [GitHub](https://github.com/kuno1/donden-gaeshi), feel 
 
 ## Changelog
 
-### 0.1.3
+### 0.1.4
 
 * Fix readme for clarification.
 
