@@ -14,30 +14,23 @@ cache:
   - "$HOME/.composer/cache"
 php:
 - 7.0
+- 7.1
+- 7.2
 - 7.3
 env:
-- WP_VERSION=latest WP_MULTISITE=0
-- WP_VERSION=4.9 WP_MULTISITE=0
-- WP_VERSION=5.0 WP_MULTISITE=0
+  matrix:
+    - WP_VERSION=latest WP_MULTISITE=0
+    - WP_VERSION=5.0 WP_MULTISITE=0
+  global:
+    - SVN_REPO: https://plugins.svn.wordpress.org/donden-gaeshi/
+    - secure: "3lLgCMaMSBOyrKurWLr03mxtOBym0vNj/4T7fWdTvT5GTLs01k5yymsytdpC/0s4nA7ODEozIba4/XABI8Q/8z+67x5MI+1oLaOSTm5TUux8DNCUzdlA5OhB+Z9w8D4p+GAESnHL8X5R3UWMhQYVWZLQgnJZDzXm5HU/tWzQ0A4V0tln7Z+pRzoDWppSNo2fNgrLngRzvbzGMqkbc7pT6zsqVF8HiXNx8hDjUAtAYypYBpNGofxuKJ57AqFistzqqDWqv6kUXUvmmLQTk2HRpNjuv5fJgRx2Ccz2S3KXrgbFlCUArWmrsU3Ls+nzvHd/swKU2Uls3mKG9C3pH1MBT0sesIfGsf2HBoe9ICFKjmrHt3gr6AEDrEhULsHudWOOIzvapnePhTMWlvrtsLGX/dHR18TgZ+WKOOTpZb7RUDZd8Xw+PAE/XnhrQ82GvI+vInvsBhEBtylhIjhCYXVNIIqmU8d4WUYPLuEACiJczUKpnC47k/e5/pLbauyEN2dc7seAiP7hX0GbxYsN5X6rkrjHzqxlPJ4vImisNtuHNEM+thOPn7DLiGZFv9RZNcAiS6OVdIAAVpaZaC+4paYacZ5zTCqs/QbqrwICcESxt9s5WMeaEgDCzkS15qKH0CKetjtknD7DWTZhvQ6Q+CptYeBjwqJ/panf0E9ay4+T3kM="
+matrix:
+  include:
+    - php: 7.0
+      env: WP_VERSION=5.0 WP_MULTISITE=0 WP_PULUGIN_DEPLOY=1
 before_script:
 - composer install
 - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
 script:
 - composer test
-before_deploy:
-- composer install --no-dev
-- curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php
-- rm -rf {tests,assets,bin,node_modules,.git,phpunit.xml.dist,.gitignore,.travis.yml,phpunit.xml.dist,README.md,composer.lock,package-lock.json,.phpcs.xml.dist.travis.yml}
-- sed -i -e "s/nightly/${TRAVIS_TAG}/" readme.txt
-- sed -i -e "s/nightly/${TRAVIS_TAG}/" $(basename $TRAVIS_REPO_SLUG).php
-- zip -r donden-gaeshi.zip ./
-deploy:
-  provider: releases
-  api_key:
-    secure: CoZoeSih5bTajlm9yjuGDjvjsxhh6hwwlFNojZ90FoZn4ean/zWpzyOTfKfReuJ52L6RP4eRJnsesiISgKz6LqFMQZSMpk2l/6Ev/3dFDFuVuLACtGIoaP/YFrzFgWv1ysOez+88dqx8M0ZUv9U1eRf5KkKiZg4Ks5VS/NLKdEBp+6Hlgy9HbhJzAJM/mFjnA6ZhbFYnapq3RQ7go82Xz7t9V8C/GZMB/qpajYoxKGJiE6Cj0AixRsygRths/kIzgMe7Y/tv91i9jH8EKXXXPM+/+YdtULCT3zeeJDgint9OOmmS6XFBdwix9fS5pLl3qYT8ovrnsRMz9/E1/buHpu1pK2BI/9OXW/+EKc3tXAqXWm1fwRHZ7TdoPTTUG6Az56Bpk7dl36WTxeDUb3VB6Vmw01ijUnMe4+4yXh8eeZcp6/+w/tPbhDVhnT8LSFrMPTwP4t6PBZjpk4vX/vixR/UzSTD237NYSdqXaO26XCyCGxWJBhk1UEPb6jVawoy9HjCXOr35qkilFhvTsSG5o++b1rvPuJqdJveomGsn5Ph3pFzofGRuMWH4t118CWSnt+0VcqneWJTV5Zz1sTwzIR7/RhC6RtmZMSAYZuGeWvEWMwFdOKDOaeIk59vSJQFdnrZuCCrnmiuC++DtWaQ/SjPaPfv7qEQBBINs2sP5ZHM=
-  file: donden-gaeshi.zip
-  skip_cleanup: true
-  on:
-    repo: kuno1/donden-gaeshi
-    tags: true
-    php: 7.0
+after_success: curl -L https://raw.githubusercontent.com/miya0001/travis2wpplugin/master/deploy.sh | bash

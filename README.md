@@ -1,9 +1,9 @@
-# donden-gaeshi
+# Donden Gaeshi - Name Order Change for WooCommerce
 
 Contributors: Takahashi_Fumiki,kuno1  
 Tags: woocommerce,i18n,l10n,localization,display_name  
 Requires at least: 5.0  
-Requires PHP: 7.0    
+Requires PHP: 7.0  
 Tested up to: 5.2.2  
 Stable tag: nightly
 License: GPLv3 or later  
@@ -18,6 +18,7 @@ In some locales, last_name preceded first_name.
 - Japanese
 - Chinese
 - Korean
+- Mongolian
 - Vietnamese
 - Hungarian
 
@@ -32,9 +33,21 @@ This plugin does nothing but changing name field's order. You don't have to care
 
 ## Screenshots
 
-W.I.P
+1. Name fields in My Account page. Surname comes first.
+2. Name fields in Builling Address is in the same order.
+3. If user locale is not in the list above, the first name precedes the last name.
+
+## Frequently Asked Questions
+
+### How to Contribute
+
+This plugin is hosted on [GitHub](https://github.com/kuno1/donden-gaeshi), feel free to make [issues](https://github.com/kuno1/donden-gaeshi/issues) or to send [Pull Requests](https://github.com/kuno1/donden-gaeshi/pulls). 
 
 ## Changelog
+
+### 0.1.2
+
+* Registered on WordPress.org.
 
 ### 0.1.0
 
